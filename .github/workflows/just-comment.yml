@@ -1,0 +1,21 @@
+name: 'Comment me'
+
+on:
+  pull_request:
+    branches:
+        - main
+
+jobs:
+  check-comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on PR prod
+        uses: actions/github-script@v6
+        with:
+          script: |
+              github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Detected changes in extensibility for prod environment. Please run the following command: `prepare-extensibility-prod`'
+              })
